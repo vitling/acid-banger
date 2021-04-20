@@ -1,0 +1,193 @@
+/*
+  Copyright 2021 David Whiting
+  This work is licensed under a Creative Commons Attribution 4.0 International License
+  https://creativecommons.org/licenses/by/4.0/
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+body {
+    background-color: #111;
+    color:white;
+    font-family: Orbitron, monospace;
+}
+
+#ui {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+p {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right:auto;
+    font-family: monospace;
+}
+
+a {
+    color:white;
+}
+
+@media (max-width: 500px) {
+    p {
+        font-size: 0.8em;
+    }
+}
+
+.machine,.control-group {
+
+    background-color: black;
+    display: grid;
+    grid-template-columns: 20px auto;
+    border: 1px solid #444444;
+    margin:5px;
+}
+
+.label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    /* left because we're 180 rotated */
+    border-left: 1px solid #444444;
+}
+
+.machine .group {
+    display: grid;
+    grid-template-columns: 25px auto 70px;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    height: 100px;
+}
+
+.control-group .group {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.control-group .group button {
+    flex-grow: 1;
+}
+
+.pattern {
+    width:100%;
+    height: 200px;
+    /*min-height: 150px;*/
+    /*border-right:1px solid rgba(255,255,255,0.3);*/
+}
+
+button {
+    color:white;
+    background-color: #111;
+    border: 1px solid #444;
+    text-align: center;
+    cursor: pointer;
+    font-family: Orbitron, monospace
+}
+
+button:hover {
+    background-color: #222;
+}
+
+.dial {
+    display: block;
+}
+.mutes button {
+    height: 50px;
+    display: block;
+}
+
+.mutes .on {
+    background-color: #770000;
+}
+
+.trigger-button {
+    font-size:20px;
+    padding:0;
+    text-align: center;
+}
+
+.params.horizontal .dial {
+  display: inline-block;
+}
+
+.control-group .params {
+    height: 50px;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+}
+.control-group {
+    flex-grow: 1;
+}
+
+.meter canvas {
+    object-fit: fill;
+    height: 100px;
+    width:100px;
+}
+
+
+@keyframes wait-animate {
+    0% { background-color: black }
+    50% { background-color: red }
+    100% { background-color: black }
+}
+
+button.waiting {
+    background-color: red;
+    animation: wait-animate 0.2s infinite;
+}
+
+.parameter-controlled {
+    background-color: #222266;
+}
+
+
+.notegen-note-display {
+    width: 200px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding:5px;
+}
+.controls button {
+    width: 100%;
+}
+
+@keyframes autopilot-animate {
+    0% { background-color: #113311 }
+    50% { background-color: green }
+    100% { background-color: #113311 }
+}
+/*@keyframes autopilot-border-animate {*/
+/*    0% { border: 1px solid #444 }*/
+/*    50% { border: 1px solid #494 }*/
+/*    100% { border: 1px solid #444 }*/
+/*}*/
+
+.autopilot-button.on {
+    animation: autopilot-animate 2s infinite;
+}
+
+
+h2 {
+    text-align: center;
+    font-size:1.5em;
+}
+
+/*@media (max-width: 640px) {*/
+/*    h2 {*/
+/*        font-size: 1.2em;*/
+/*    }*/
+/*}*/
+
+

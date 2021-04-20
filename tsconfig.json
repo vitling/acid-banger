@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "es6",
+    "lib": ["dom", "esnext"],
+    "sourceMap": true,
+    "outDir": "./js",
+    "strict": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "src/**/*"
+  ]
+}
