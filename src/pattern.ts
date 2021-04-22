@@ -4,8 +4,8 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import {FullNote, midiNoteToText} from "./audio.js";
-import {choose, rndInt} from "./math.js";
+import {FullNote, midiNoteToText} from "./audio";
+import {choose, rndInt} from "./math";
 import {
     GeneralisedParameter,
     genericParameter,
@@ -15,7 +15,7 @@ import {
     Slot,
     trigger,
     Trigger
-} from "./interface.js";
+} from "./interface";
 
 
 export function ThreeOhGen(): NoteGenerator {

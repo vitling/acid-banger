@@ -11,9 +11,9 @@ import {
     NumericParameter,
     PatternParameter, ProgramState,
     ThreeOhMachine, Trigger, AutoPilotUnit
-} from "./interface.js";
-import {textNoteToNumber} from "./audio.js";
-import {Dial} from "./dial.js";
+} from "./interface";
+import {textNoteToNumber} from "./audio";
+import {Dial} from "./dial";
 
 const defaultColors = {
     bg: "#222266",

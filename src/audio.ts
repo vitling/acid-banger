@@ -4,7 +4,7 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import {biRnd} from "./math.js";
+import {biRnd} from "./math";
 
 export type Note = 'A' | 'A#' | 'B' | 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#';
 export type Octave = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
