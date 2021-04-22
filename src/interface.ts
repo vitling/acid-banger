@@ -4,7 +4,7 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import {FullNote} from "./audio.js";
+import {FullNote} from "./audio";
 export type Slot = {
     note: FullNote | "-";
     accent: boolean,

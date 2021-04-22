@@ -4,10 +4,10 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import {Clock, pressToStart} from "./boilerplate.js";
-import {Audio, AudioT} from './audio.js';
-import {NineOhGen, ThreeOhGen} from "./pattern.js";
-import {UI} from "./ui.js";
+import {Clock, pressToStart} from "./boilerplate";
+import {Audio, AudioT} from './audio';
+import {NineOhGen, ThreeOhGen} from "./pattern";
+import {UI} from "./ui";
 import {
     DrumPattern,
     genericParameter,
@@ -18,7 +18,7 @@ import {
     ThreeOhMachine, trigger,
     DelayUnit, ClockUnit,
     AutoPilotUnit
-} from "./interface.js";
+} from "./interface";
 
 
 function WanderingParameter(param: NumericParameter, scaleFactor = 1/400) {

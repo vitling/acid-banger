@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "target": "es6",
     "lib": ["dom", "esnext"],
     "sourceMap": true,
-    "outDir": "./js",
-    "strict": true
+    "strict": true,
+    "jsx": "react",
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*"
-  ]
+    "src/**/*",
+    "types"
+  ],    
 }
