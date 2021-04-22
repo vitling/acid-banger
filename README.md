@@ -2,6 +2,21 @@
 
 An algorithmic human-computer techno jam
 
+## Requirements
+
+- Install NodeJS
+- WebMIDI requires a supported browser (currently, Chrome)
+
+## Prerequisites
+
+1. Clone the repository
+2. Run `npm i`
+
+## Usage
+
+1. `npm run dev`
+2. Browse to http://localhost:9000/
+
 ## License
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/)
