@@ -107,5 +107,6 @@ export type ProgramState = {
     drums: NineOhMachine,
     gen: NoteGenerator,
     delay: DelayUnit
-    clock: ClockUnit
+    clock: ClockUnit,
+    masterVolume: NumericParameter
 }
