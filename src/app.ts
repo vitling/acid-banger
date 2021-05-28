@@ -244,8 +244,11 @@ async function start() {
         drums: await NineOhUnit(audio),
         gen,
         delay,
-        clock
+        clock,
+        masterVolume: parameter("Volume", [0,1], 0.5)
     }
+
+    programState.masterVolume.subscribe(newVolume => { audio.master.in.gain.value = newVolume; });
 
     clock.currentStep.subscribe(step => [...programState.notes, programState.drums].forEach(d => d.step(step)));
     const autoPilot = AutoPilot(programState);

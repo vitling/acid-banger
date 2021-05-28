@@ -302,6 +302,7 @@ export function UI(state: ProgramState, autoPilot: AutoPilotUnit, analyser: Anal
         NoteGen(state.gen),
         DelayControls(state.delay),
         controlGroup(label("Clock"), DialSet([state.clock.bpm], "horizontal")),
+        controlGroup(label("Volume"), DialSet([state.masterVolume], "horizontal")),
         controlGroup(label("Meter"), group(AudioMeter(analyser)), "meter")
     )
 
