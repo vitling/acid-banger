@@ -99,7 +99,11 @@ export function Dial(
     state.handler.push(h);
   }
 
+<<<<<<< HEAD
   element.addEventListener("mousedown", (_e: MouseEvent) => {
+=======
+  element.addEventListener("mousedown", (_e) => {
+>>>>>>> 62597ae (Use public folder, tighten types)
     state.isDragging = true;
   });
 
@@ -113,7 +117,11 @@ export function Dial(
     }
   });
 
+<<<<<<< HEAD
   window.addEventListener("mouseup", (_e: MouseEvent) => {
+=======
+  window.addEventListener("mouseup", (_e) => {
+>>>>>>> 62597ae (Use public folder, tighten types)
     state.isDragging = false;
   });
 

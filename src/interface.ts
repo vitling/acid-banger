@@ -1,7 +1,12 @@
 import {
   GeneralisedParameter,
+<<<<<<< HEAD
   NumericParameter,
   ParameterCallback,
+=======
+  ParameterCallback,
+  NumericParameter,
+>>>>>>> 62597ae (Use public folder, tighten types)
   Trigger,
 } from "../typings/interface";
 

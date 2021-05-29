@@ -70,7 +70,6 @@ export function pitch(note: FullNote | number) {
   }
 }
 
-// @ts-ignore
 export function Audio(
   au: AudioContext = new (window.AudioContext || window.webkitAudioContext)()
 ) {
