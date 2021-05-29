@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es6",
-    "lib": ["dom", "esnext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "Node",
+    "strict": true,
     "sourceMap": true,
-    "outDir": "./js",
-    "strict": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true
   },
-  "compileOnSave": true,
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["./typings", "./src"]
 }

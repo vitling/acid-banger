@@ -1,0 +1,13 @@
+{
+  "name": "test",
+  "version": "0.0.0",
+  "devDependencies": {
+    "typescript": "^4.2.3",
+    "vite": "^2.3.4"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  }
+}
