@@ -22,6 +22,7 @@ async function start() {
   const audio = Audio();
   const clock = ClockUnit();
   const delay = DelayUnit(audio);
+
   clock.bpm.subscribe((b) => (delay.delayTime.value = (3 / 4) * (60 / b)));
 
   const gen = ThreeOhGen();

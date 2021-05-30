@@ -8,64 +8,18 @@ import "./ui.css";
 
 import {
   DelayUnit,
-  DrumPattern,
   GeneralisedParameter,
   NoteGenerator,
-  NumericParameter,
-  PatternParameter,
   ProgramState,
   Trigger,
   AutoPilotUnit,
 } from "../typings/interface";
 
-import { textNoteToNumber } from "./audio";
-import { Dial } from "./dial";
+import { DrumDisplay } from "./ui/drum-display";
 
-const defaultColors = {
-  bg: "#222266",
-  note: "#88aacc",
-  accent: "#AA88CC",
-  glide: "#CCAA88",
-  text: "#CCCCFF",
-  highlight: "rgba(255,255,255,0.2)",
-  grid: "rgba(255,255,255,0.2)",
-  dial: "#AA88CC",
-};
-type ColorScheme = { [color in keyof typeof defaultColors]: string };
-
-function DialSet(
-  parameters: { [key: string]: NumericParameter } | NumericParameter[],
-  ...classes: string[]
-) {
-  const params = Array.isArray(parameters)
-    ? parameters
-    : Object.keys(parameters).map((k) => parameters[k]);
-
-  const container = document.createElement("div");
-  container.classList.add("params", ...classes);
-
-  params.forEach((param) => {
-    //const param = parameters[p];
-    const dial = Dial(
-      param.bounds,
-      param.name,
-      defaultColors.dial,
-      defaultColors.text
-    );
-
-    // Change the parameter if we move the dial
-    dial.bind((v) => {
-      param.value = v;
-    });
-
-    // Move the dial if the parameter changes elsewhere
-    param.subscribe((v) => (dial.value = v));
-
-    container.append(dial.element);
-  });
-
-  return container;
-}
+import { PatternDisplay } from "./ui/pattern-display";
+import { AudioMeter } from "./ui/audio-meter";
+import { DialSet } from "./ui/dial-set";
 
 function triggerButton(target: Trigger) {
   const but = document.createElement("button");
@@ -143,120 +97,6 @@ function group(...contents: HTMLElement[]) {
   return element;
 }
 
-function PatternDisplay(
-  patternParam: PatternParameter,
-  stepParam: NumericParameter,
-  colors: ColorScheme = defaultColors
-) {
-  const canvas = document.createElement("canvas");
-  canvas.classList.add("pattern");
-  function repaint() {
-    const pattern = patternParam.value;
-    const w = (canvas.width = canvas.clientWidth);
-    const h = (canvas.height = 200);
-    const vScale = h / 50;
-    const g = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-    g.font = "10px Orbitron";
-
-    g.fillStyle = colors.bg;
-    g.fillRect(0, 0, w, h);
-
-    g.strokeStyle = colors.grid;
-    for (let i = 0; i < pattern.length; i++) {
-      const x = (w * i) / pattern.length;
-      g.beginPath();
-      g.moveTo(x, 0);
-      g.lineTo(x, h);
-      g.stroke();
-    }
-    for (let i = 0; i < 80; i++) {
-      const y = h - i * vScale;
-      g.beginPath();
-      g.moveTo(0, y);
-      g.lineTo(w, y);
-      g.stroke();
-    }
-
-    for (let i = 0; i < pattern.length; i++) {
-      const s = pattern[i];
-      if (s.note === "-") {
-      } else {
-        const n = textNoteToNumber(s.note) - 24;
-        const x = (w * i) / pattern.length;
-        const y = h - n * vScale;
-        const bw = w / pattern.length;
-        const bh = 5;
-
-        g.fillStyle = s.glide
-          ? colors.glide
-          : s.accent
-          ? colors.accent
-          : colors.note;
-        g.fillRect(x, y, bw, bh);
-
-        g.fillStyle = colors.text;
-        const xt = x + bw / 2 - g.measureText(s.note).width / 2;
-        g.fillText(s.note, xt, y);
-      }
-    }
-
-    g.fillStyle = colors.highlight;
-    g.fillRect(
-      (w * stepParam.value) / pattern.length,
-      0,
-      w / pattern.length,
-      h
-    );
-  }
-
-  patternParam.subscribe(repaint);
-  stepParam.subscribe(repaint);
-
-  return canvas;
-}
-
-function DrumDisplay(
-  pattern: GeneralisedParameter<DrumPattern>,
-  mutes: GeneralisedParameter<boolean>[],
-  stepParam: NumericParameter,
-  colors: ColorScheme = defaultColors
-) {
-  const canvas = document.createElement("canvas");
-  canvas.classList.add("pattern");
-
-  function repaint() {
-    const w = (canvas.width = canvas.clientWidth);
-    const h = (canvas.height = 100);
-    const g = canvas.getContext("2d") as CanvasRenderingContext2D;
-    g.fillStyle = colors.bg;
-    g.fillRect(0, 0, w, h);
-
-    for (let i = 0; i < 16; i++) {
-      const x = (w * i) / 16;
-      for (let p = 0; p < pattern.value.length; p++) {
-        const y = (p / pattern.value.length) * h;
-        if (pattern.value[p][i]) {
-          if (mutes[p].value) {
-            g.fillStyle = "rgba(128,0,0,0.4)";
-          } else {
-            g.fillStyle = "rgba(136,170,204," + pattern.value[p][i] + ")";
-          }
-          g.fillRect(x, y, w / 16, h / pattern.value.length);
-        }
-      }
-    }
-
-    g.fillStyle = colors.highlight;
-    g.fillRect((w * stepParam.value) / 16, 0, w / 16, h);
-  }
-
-  pattern.subscribe(repaint);
-  stepParam.subscribe(repaint);
-
-  return canvas;
-}
-
 function NoteGen(noteGenerator: NoteGenerator) {
   const currentNotes = document.createElement("div");
   currentNotes.classList.add("parameter-controlled", "notegen-note-display");
@@ -291,36 +131,6 @@ function AutopilotControls(autoPilot: AutoPilotUnit) {
     label("Autopilot"),
     group(...autoPilot.switches.map((p) => toggleButton(p, "autopilot-button")))
   );
-}
-
-function AudioMeter(analyser: AnalyserNode) {
-  const canvas = document.createElement("canvas");
-  canvas.style.width = "100%";
-  let w = (canvas.width = 200);
-  const h = (canvas.height = 100);
-  const g = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-  const output = new Uint8Array(analyser.fftSize);
-
-  function draw() {
-    //w = canvas.width = canvas.clientWidth;
-    analyser.getByteTimeDomainData(output);
-
-    g.clearRect(0, 0, w, h);
-    g.strokeStyle = "white";
-    g.beginPath();
-    g.moveTo(0, h / 2);
-    for (let i = 0; i < output.length; i++) {
-      const v = output[i] / 128 - 1;
-      g.lineTo((w * i) / output.length, h / 2 + (1.5 * v * h) / 2);
-    }
-
-    g.stroke();
-    window.requestAnimationFrame(draw);
-  }
-  window.requestAnimationFrame(draw);
-
-  return canvas;
 }
 
 export function UI(

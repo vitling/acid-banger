@@ -9,6 +9,7 @@ export function AutoPilot(state: ProgramState): AutoPilotUnit {
   const patternEnabled = genericParameter("Alter Patterns", true);
   const dialsEnabled = genericParameter("Twiddle Knobs", true);
   const mutesEnabled = genericParameter("Mute Drum Parts", true);
+
   state.clock.currentStep.subscribe((step) => {
     if (step === 4) {
       nextMeasure.value = nextMeasure.value + 1;
@@ -54,12 +55,14 @@ export function AutoPilot(state: ProgramState): AutoPilotUnit {
       }
     }
   });
+
   const noteParams = state.notes.flatMap((x) => Object.values(x.parameters));
   const delayParams = [state.delay.feedback, state.delay.dryWet];
 
   const wanderers = [...noteParams, ...delayParams].map((param) =>
     WanderingParameter(param)
   );
+
   window.setInterval(() => {
     if (dialsEnabled.value) wanderers.forEach((w) => w.step());
   }, 100);
