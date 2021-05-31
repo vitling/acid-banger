@@ -14,7 +14,7 @@
   },
   "lint-staged": {
     "*.{ts,js}": "eslint --cache --fix",
-    "*.{ts,js,css,md}": "prettier --write"
+    "*.{ts,js,css,html,md}": "prettier --write"
   },
   "scripts": {
     "dev": "vite",
