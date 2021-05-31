@@ -113,7 +113,7 @@ export function Dial(
     }
   });
 
-  window.addEventListener("pointerup", (_e) => {
+  window.addEventListener("pointerup", () => {
     state.isDragging = false;
   });
 

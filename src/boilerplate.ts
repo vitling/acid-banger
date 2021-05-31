@@ -8,15 +8,14 @@ export function pressToStart(
   fn: () => void,
   title: string,
   description: string,
-  callToAction: string = "Click, tap or press any key to start"
-) {
+  callToAction = "Click, tap or press any key to start"
+): void {
   const button = document.createElement("button");
   button.id = "_start_button";
   const introText = document.createElement("div");
   introText.id = "_intro_text";
   button.append(introText);
-  introText.innerHTML =
-    title + "<br><br>" + description + "<br><br>" + callToAction;
+  introText.innerHTML = title + "<br><br>" + description + "<br><br>" + callToAction;
 
   document.head.insertAdjacentHTML(
     "beforeend",
@@ -62,11 +61,8 @@ export function pressToStart(
   window.addEventListener("keydown", handleStartAction);
 }
 
-export function repeat(
-  seconds: number,
-  fn: (time: number, step: number) => void
-) {
-  let time = new Date().getTime();
+export function repeat(seconds: number, fn: (time: number, step: number) => void): void {
+  const time = new Date().getTime();
   let n = 0;
   function step() {
     const t = new Date().getTime() - time;
@@ -80,12 +76,17 @@ export function repeat(
 
 export function Clock(
   bpm: number,
-  subdivision: number = 4,
-  shuffle: number = 0
-) {
+  subdivision = 4,
+  shuffle = 0
+): {
+  bind: (newFn: (time: number, step: number) => void) => void;
+  setBpm: (bpm: number) => number;
+} {
   let currentBpm = bpm;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   let fn = (_time: number, _step: number) => {};
-  let time = new Date().getTime();
+  const time = new Date().getTime();
   let n = 0;
   function bind(newFn: (time: number, step: number) => void) {
     fn = newFn;
@@ -96,10 +97,7 @@ export function Clock(
     const shuffleFactor = n % 2 == 0 ? 1 + shuffle : 1 - shuffle;
     n++;
 
-    window.setTimeout(
-      step,
-      (shuffleFactor * (60000 / currentBpm)) / subdivision
-    );
+    window.setTimeout(step, (shuffleFactor * (60000 / currentBpm)) / subdivision);
   }
 
   window.setTimeout(step, 60000 / bpm / subdivision);

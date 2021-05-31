@@ -1,5 +1,5 @@
 import { NoteGenerator, Pattern, ThreeOhMachine } from "@typings/interface";
-import { AudioT } from "../audio";
+import { AudioT } from "@typings/audio";
 
 import { genericParameter, parameter, trigger } from "../interface";
 

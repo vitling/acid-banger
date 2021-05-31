@@ -4,7 +4,7 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import { FullNote } from "../src/audio.js";
+import { FullNote } from "@typings/audio";
 
 export type Slot = {
   note: FullNote | "-";
@@ -15,12 +15,13 @@ export type Slot = {
 export type Pattern = Slot[];
 
 export type DrumPattern = number[][];
-type ParameterCallback<T> = (v: T) => any;
+
+type ParameterCallback<T> = (v: T) => unknown;
 
 export type GeneralisedParameter<T> = {
   value: T;
   name: string;
-  subscribe: (callback: ParameterCallback<T>) => any;
+  subscribe: (callback: ParameterCallback<T>) => unknown;
 };
 
 export type Trigger = GeneralisedParameter<boolean>;

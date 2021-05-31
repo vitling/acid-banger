@@ -1,5 +1,5 @@
 import { DrumPattern, NineOhMachine } from "@typings/interface";
-import { AudioT } from "../audio";
+import { AudioT } from "@typings/audio";
 
 import { genericParameter, trigger } from "../interface";
 import { NineOhGen } from "../patterns";

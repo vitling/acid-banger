@@ -1,6 +1,6 @@
 import { DelayUnit } from "@typings/interface";
+import { AudioT } from "@typings/audio";
 
-import { AudioT } from "../audio";
 import { parameter } from "../interface";
 
 export function DelayUnit(audio: AudioT): DelayUnit {

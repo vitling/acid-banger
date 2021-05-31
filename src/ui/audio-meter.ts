@@ -1,7 +1,7 @@
-export function AudioMeter(analyser: AnalyserNode) {
+export function AudioMeter(analyser: AnalyserNode): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
   canvas.style.width = "100%";
-  let w = (canvas.width = 200);
+  const w = (canvas.width = 200);
   const h = (canvas.height = 100);
   const g = canvas.getContext("2d") as CanvasRenderingContext2D;
 

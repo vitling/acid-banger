@@ -2,6 +2,7 @@
   "name": "acid-banger",
   "version": "0.0.0",
   "devDependencies": {
+    "@tsconfig/recommended": "1.0.1",
     "@typescript-eslint/eslint-plugin": "4.25.0",
     "@typescript-eslint/parser": "4.25.0",
     "eslint": "7.27.0",
@@ -19,6 +20,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --cache --fix ./src"
   }
 }

@@ -6,7 +6,7 @@ export function DrumDisplay(
   mutes: GeneralisedParameter<boolean>[],
   stepParam: NumericParameter,
   colors: ColorScheme = defaultColors
-) {
+): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
   canvas.classList.add("pattern");
 

@@ -4,26 +4,13 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import { biRnd } from "./math";
+import { AudioT, FullNote, Note, Octave } from "@typings/audio";
 
-export type Note =
-  | "A"
-  | "A#"
-  | "B"
-  | "C"
-  | "C#"
-  | "D"
-  | "D#"
-  | "E"
-  | "F"
-  | "F#"
-  | "G"
-  | "G#";
-export type Octave = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8";
-export type FullNote = `${Note}${Octave}`;
+import { biRnd } from "./math";
 
 const lookupTable: Map<Note, number> = new Map<Note, number>();
 const revLook: Map<number, Note> = new Map<number, Note>();
+
 (() => {
   function add(note: Note, n: number) {
     lookupTable.set(note, n);
@@ -43,12 +30,12 @@ const revLook: Map<number, Note> = new Map<number, Note>();
   add("G#", 8);
 })();
 
-export function textNoteToNumber(note: FullNote) {
+export function textNoteToNumber(note: FullNote): number {
   const o: Octave = note.substring(note.length - 1) as Octave;
   const n: Note = note.substring(0, note.length - 1) as Note;
+  const lookupNote = lookupTable.get(n) || 0;
 
-  // @ts-ignore
-  return parseInt(o) * 12 + lookupTable.get(n) + 12;
+  return parseInt(o) * 12 + lookupNote + 12;
 }
 
 function midiNoteToFrequency(noteNumber: number) {
@@ -62,7 +49,7 @@ export function midiNoteToText(note: number): FullNote {
   return `${noteName}${octave}` as FullNote;
 }
 
-export function pitch(note: FullNote | number) {
+export function pitch(note: FullNote | number): number {
   if (typeof note === "number") {
     return midiNoteToFrequency(note);
   } else {
@@ -72,7 +59,7 @@ export function pitch(note: FullNote | number) {
 
 export function Audio(
   au: AudioContext = new (window.AudioContext || window.webkitAudioContext)()
-) {
+): AudioT {
   function masterChannel() {
     const gain = au.createGain();
     gain.gain.value = 0.5;
@@ -120,9 +107,7 @@ export function Audio(
     }
   }
 
-  function decodeAudioDataCompatible(
-    audioData: ArrayBuffer
-  ): Promise<AudioBuffer> {
+  function decodeAudioDataCompatible(audioData: ArrayBuffer): Promise<AudioBuffer> {
     return new Promise((resolve, reject) => {
       return au.decodeAudioData(audioData, resolve, reject);
     });
@@ -141,7 +126,7 @@ export function Audio(
     attack: number,
     sustain: number,
     release: number,
-    pan: number = 0.0,
+    pan = 0.0,
     destination: AudioNode = master.in
   ) {
     const osc = au.createOscillator();
@@ -171,10 +156,7 @@ export function Audio(
     await time(sustain + attack);
     gain.gain.setValueAtTime(0.1, au.currentTime);
     gain.gain.linearRampToValueAtTime(0, au.currentTime + release);
-    filter.frequency.linearRampToValueAtTime(
-      Math.max(pitch / 2, 400),
-      au.currentTime + release
-    );
+    filter.frequency.linearRampToValueAtTime(Math.max(pitch / 2, 400), au.currentTime + release);
 
     await time(release + 0.01);
     osc.stop(au.currentTime);
@@ -223,10 +205,7 @@ export function Audio(
     };
   }
 
-  function ThreeOh(
-    type: OscillatorType = "sawtooth",
-    out: AudioNode = master.in
-  ) {
+  function ThreeOh(type: OscillatorType = "sawtooth", out: AudioNode = master.in) {
     const filter = au.createBiquadFilter();
     filter.type = "lowpass";
     filter.Q.value = 20;
@@ -242,6 +221,7 @@ export function Audio(
     env.start();
     env.offset.value = 0.0;
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function trigger() {}
 
     const scaleNode = au.createGain();
@@ -263,27 +243,17 @@ export function Audio(
     vca.connect(filter);
     filter.connect(out);
 
-    function noteOn(
-      note: FullNote,
-      accent: boolean = false,
-      glide: boolean = false
-    ) {
+    function noteOn(note: FullNote, accent = false, glide = false) {
       if (accent) {
         env.offset.cancelScheduledValues(au.currentTime);
         //env.offset.setTargetAtTime(1.0,au.currentTime, 0.001);
         env.offset.setValueAtTime(1.0, au.currentTime);
-        env.offset.exponentialRampToValueAtTime(
-          0.01,
-          au.currentTime + pDecay.value / 3
-        );
+        env.offset.exponentialRampToValueAtTime(0.01, au.currentTime + pDecay.value / 3);
       } else {
         env.offset.cancelScheduledValues(au.currentTime);
         //env.offset.setTargetAtTime(1.0,au.currentTime, 0.001);
         env.offset.setValueAtTime(1.0, au.currentTime);
-        env.offset.exponentialRampToValueAtTime(
-          0.01,
-          au.currentTime + pDecay.value
-        );
+        env.offset.exponentialRampToValueAtTime(0.01, au.currentTime + pDecay.value);
       }
       osc.frequency.cancelScheduledValues(au.currentTime);
       osc.frequency.setTargetAtTime(
@@ -323,11 +293,7 @@ export function Audio(
     gain.gain.value = 0.3;
     osc.start();
     osc.frequency.exponentialRampToValueAtTime(50, au.currentTime + 0.04);
-    gain.gain.setValueCurveAtTime(
-      [0.5, 0.5, 0.45, 0.4, 0.25, 0.0],
-      au.currentTime,
-      0.09
-    );
+    gain.gain.setValueCurveAtTime([0.5, 0.5, 0.45, 0.4, 0.25, 0.0], au.currentTime, 0.09);
 
     osc.stop(au.currentTime + 0.1);
     window.setTimeout(() => gain.disconnect(), 200);
@@ -346,11 +312,7 @@ export function Audio(
 
   async function Sampler(file: string) {
     const sampleBuffer = await loadBuffer(file);
-    function play(
-      gain: number = 0.4,
-      decay: number = 1.0,
-      out: AudioNode = master.in
-    ) {
+    function play(gain = 0.4, decay = 1.0, out: AudioNode = master.in) {
       const bufferSource = au.createBufferSource();
       bufferSource.buffer = sampleBuffer;
       bufferSource.loop = false;
@@ -368,10 +330,7 @@ export function Audio(
     };
   }
 
-  async function SamplerDrumMachine(
-    files: string[],
-    out: AudioNode = master.in
-  ) {
+  async function SamplerDrumMachine(files: string[], out: AudioNode = master.in) {
     const sum = au.createGain();
     sum.gain.value = 1.0;
     sum.connect(out);
@@ -399,5 +358,3 @@ export function Audio(
     context: au,
   };
 }
-
-export type AudioT = ReturnType<typeof Audio>;
