@@ -1,0 +1,26 @@
+{
+  "name": "acid-banger",
+  "version": "0.0.0",
+  "devDependencies": {
+    "@tsconfig/recommended": "1.0.1",
+    "@typescript-eslint/eslint-plugin": "4.25.0",
+    "@typescript-eslint/parser": "4.25.0",
+    "eslint": "7.27.0",
+    "husky": "6.0.0",
+    "lint-staged": "11.0.0",
+    "prettier": "2.3.0",
+    "typescript": "^4.2.3",
+    "vite": "^2.3.4"
+  },
+  "lint-staged": {
+    "*.{ts,js}": "eslint --cache --fix",
+    "*.{ts,js,css,html,md}": "prettier --write"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "prepare": "husky install",
+    "lint": "eslint --cache --fix ./src"
+  }
+}
