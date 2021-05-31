@@ -1,4 +1,4 @@
-import { ClockUnit } from "../../typings/interface";
+import { ClockUnit } from "@typings/interface";
 
 import { Clock } from "../boilerplate";
 import { parameter } from "../interface";

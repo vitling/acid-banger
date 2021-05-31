@@ -1,4 +1,4 @@
-import { ProgramState, AutoPilotUnit } from "../../typings/interface";
+import { ProgramState, AutoPilotUnit } from "@typings/interface";
 
 import { genericParameter, parameter } from "../interface";
 import { WanderingParameter } from "../params/wandering-parameter";
@@ -27,7 +27,7 @@ export function AutoPilot(state: ProgramState): AutoPilotUnit {
         }
       }
       if (measure % 16 === 0) {
-        state.notes.forEach((n, _i) => {
+        state.notes.forEach((n) => {
           if (Math.random() < 0.5) {
             n.newPattern.value = true;
           }
@@ -59,9 +59,7 @@ export function AutoPilot(state: ProgramState): AutoPilotUnit {
   const noteParams = state.notes.flatMap((x) => Object.values(x.parameters));
   const delayParams = [state.delay.feedback, state.delay.dryWet];
 
-  const wanderers = [...noteParams, ...delayParams].map((param) =>
-    WanderingParameter(param)
-  );
+  const wanderers = [...noteParams, ...delayParams].map((param) => WanderingParameter(param));
 
   window.setInterval(() => {
     if (dialsEnabled.value) wanderers.forEach((w) => w.step());

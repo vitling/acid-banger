@@ -1,4 +1,4 @@
-import { PatternParameter, NumericParameter } from "../../typings/interface";
+import { PatternParameter, NumericParameter } from "@typings/interface";
 import { textNoteToNumber } from "../audio";
 import { ColorScheme, defaultColors } from "./palette";
 
@@ -6,7 +6,7 @@ export function PatternDisplay(
   patternParam: PatternParameter,
   stepParam: NumericParameter,
   colors: ColorScheme = defaultColors
-) {
+): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
   canvas.classList.add("pattern");
   function repaint() {
@@ -40,6 +40,7 @@ export function PatternDisplay(
     for (let i = 0; i < pattern.length; i++) {
       const s = pattern[i];
       if (s.note === "-") {
+        // Do nothing
       } else {
         const n = textNoteToNumber(s.note) - 24;
         const x = (w * i) / pattern.length;
@@ -47,11 +48,7 @@ export function PatternDisplay(
         const bw = w / pattern.length;
         const bh = 5;
 
-        g.fillStyle = s.glide
-          ? colors.glide
-          : s.accent
-          ? colors.accent
-          : colors.note;
+        g.fillStyle = s.glide ? colors.glide : s.accent ? colors.accent : colors.note;
         g.fillRect(x, y, bw, bh);
 
         g.fillStyle = colors.text;
@@ -61,12 +58,7 @@ export function PatternDisplay(
     }
 
     g.fillStyle = colors.highlight;
-    g.fillRect(
-      (w * stepParam.value) / pattern.length,
-      0,
-      w / pattern.length,
-      h
-    );
+    g.fillRect((w * stepParam.value) / pattern.length, 0, w / pattern.length, h);
   }
 
   patternParam.subscribe(repaint);

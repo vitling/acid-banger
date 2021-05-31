@@ -4,16 +4,12 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import { ProgramState } from "../typings/interface";
+import { ProgramState } from "@typings/interface";
 
 import { pressToStart } from "./boilerplate";
 import { Audio } from "./audio";
-import { DelayUnit } from "./units/delay";
-import { ThreeOhUnit } from "./units/303";
-import { NineOhUnit } from "./units/909";
-import { ClockUnit } from "./units/clock";
-import { AutoPilot } from "./units/autopilot";
-import { ThreeOhGen } from "./pattern";
+import { DelayUnit, ThreeOhUnit, NineOhUnit, ClockUnit, AutoPilot } from "./units";
+import { ThreeOhGen } from "./patterns";
 import { UI } from "./ui";
 
 import { parameter } from "./interface";

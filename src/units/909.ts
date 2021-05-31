@@ -1,8 +1,8 @@
-import { DrumPattern, NineOhMachine } from "../../typings/interface";
+import { DrumPattern, NineOhMachine } from "@typings/interface";
 import { AudioT } from "../audio";
 
 import { genericParameter, trigger } from "../interface";
-import { NineOhGen } from "../pattern";
+import { NineOhGen } from "../patterns";
 
 export async function NineOhUnit(audio: AudioT): Promise<NineOhMachine> {
   const drums = await audio.SamplerDrumMachine([
@@ -26,7 +26,7 @@ export async function NineOhUnit(audio: AudioT): Promise<NineOhMachine> {
       pattern.value = gen.createPatterns(true);
       newPattern.value = false;
     }
-    for (let i in pattern.value) {
+    for (const i in pattern.value) {
       const entry = pattern.value[i][index % pattern.value[i].length];
       if (entry && !mutes[i].value) {
         drums.triggers[i].play(entry);

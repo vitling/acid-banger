@@ -1,8 +1,4 @@
-import {
-  NoteGenerator,
-  Pattern,
-  ThreeOhMachine,
-} from "../../typings/interface";
+import { NoteGenerator, Pattern, ThreeOhMachine } from "@typings/interface";
 import { AudioT } from "../audio";
 
 import { genericParameter, parameter, trigger } from "../interface";
@@ -12,7 +8,7 @@ export function ThreeOhUnit(
   waveform: OscillatorType,
   output: AudioNode,
   gen: NoteGenerator,
-  patternLength: number = 16
+  patternLength = 16
 ): ThreeOhMachine {
   const synth = audio.ThreeOh(waveform, output);
   const pattern = genericParameter<Pattern>("Pattern", []);
@@ -23,10 +19,7 @@ export function ThreeOhUnit(
   });
 
   function step(index: number) {
-    if (
-      (index === 0 && newPattern.value == true) ||
-      pattern.value.length == 0
-    ) {
+    if ((index === 0 && newPattern.value == true) || pattern.value.length == 0) {
       pattern.value = gen.createPattern();
       newPattern.value = false;
     }
@@ -47,9 +40,7 @@ export function ThreeOhUnit(
   };
 
   parameters.cutoff.subscribe((v: number) => (synth.params.cutoff.value = v));
-  parameters.resonance.subscribe(
-    (v: number) => (synth.params.resonance.value = v)
-  );
+  parameters.resonance.subscribe((v: number) => (synth.params.resonance.value = v));
   parameters.envMod.subscribe((v: number) => (synth.params.envMod.value = v));
   parameters.decay.subscribe((v: number) => (synth.params.decay.value = v));
 

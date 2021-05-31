@@ -1,8 +1,4 @@
-import {
-  GeneralisedParameter,
-  DrumPattern,
-  NumericParameter,
-} from "../../typings/interface";
+import { GeneralisedParameter, DrumPattern, NumericParameter } from "@typings/interface";
 import { ColorScheme, defaultColors } from "./palette";
 
 export function DrumDisplay(

@@ -4,8 +4,6 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-import "./ui.css";
-
 import {
   DelayUnit,
   GeneralisedParameter,
@@ -13,7 +11,9 @@ import {
   ProgramState,
   Trigger,
   AutoPilotUnit,
-} from "../typings/interface";
+} from "@typings/interface";
+
+import "./ui.css";
 
 import { DrumDisplay } from "./ui/drum-display";
 
@@ -38,10 +38,7 @@ function triggerButton(target: Trigger) {
   return but;
 }
 
-function toggleButton(
-  param: GeneralisedParameter<boolean>,
-  ...classes: string[]
-) {
+function toggleButton(param: GeneralisedParameter<boolean>, ...classes: string[]) {
   const button = document.createElement("button");
   button.classList.add(...classes);
   button.innerText = param.name;
@@ -72,11 +69,7 @@ function machine(...contents: HTMLElement[]) {
   return element;
 }
 
-function controlGroup(
-  label: HTMLElement,
-  content: HTMLElement,
-  ...classes: string[]
-) {
+function controlGroup(label: HTMLElement, content: HTMLElement, ...classes: string[]) {
   const element = document.createElement("div");
   element.classList.add("control-group", ...classes);
   element.append(label, content);
@@ -137,7 +130,7 @@ export function UI(
   state: ProgramState,
   autoPilot: AutoPilotUnit,
   analyser: AnalyserNode
-) {
+): HTMLDivElement {
   const ui = document.createElement("div");
   ui.id = "ui";
 
@@ -168,11 +161,7 @@ export function UI(
     label("909-XX"),
     group(
       triggerButton(state.drums.newPattern),
-      DrumDisplay(
-        state.drums.pattern,
-        state.drums.mutes,
-        state.clock.currentStep
-      ),
+      DrumDisplay(state.drums.pattern, state.drums.mutes, state.clock.currentStep),
       Mutes(state.drums.mutes)
     )
   );

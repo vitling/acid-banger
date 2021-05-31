@@ -11,9 +11,13 @@ function clamp(n: number): number {
 export function Dial(
   bounds: [number, number],
   text?: string,
-  dialColor: string = "red",
-  textColor: string = "white"
-) {
+  dialColor = "red",
+  textColor = "white"
+): {
+  element: HTMLCanvasElement;
+  value: number;
+  bind: (h: (v: number) => void) => void;
+} {
   const element = document.createElement("canvas");
   element.classList.add("dial");
   const w = (element.width = 70);
@@ -79,12 +83,7 @@ export function Dial(
     normalizedValue = normalise(n);
     paint();
     if (Math.abs(normalizedValue - previousNormalisedValue) > 0.002) {
-      fade(
-        4 +
-          Math.floor(
-            Math.abs(normalizedValue - previousNormalisedValue) / 0.001
-          )
-      );
+      fade(4 + Math.floor(Math.abs(normalizedValue - previousNormalisedValue) / 0.001));
     }
     previousNormalisedValue = normalizedValue;
   }
@@ -93,17 +92,18 @@ export function Dial(
     return denormalise(normalizedValue);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   const state = { isDragging: false, handler: [(_v: number) => {}] };
 
   function bind(h: (v: number) => void) {
     state.handler.push(h);
   }
 
-  element.addEventListener("mousedown", (_e) => {
+  element.addEventListener("pointerdown", () => {
     state.isDragging = true;
   });
 
-  window.addEventListener("mousemove", (e: MouseEvent) => {
+  window.addEventListener("pointermove", (e: MouseEvent) => {
     if (state.isDragging) {
       const delta = (e.movementX - e.movementY) / 100;
       normalizedValue = clamp(normalizedValue + delta);
@@ -113,7 +113,7 @@ export function Dial(
     }
   });
 
-  window.addEventListener("mouseup", (_e) => {
+  window.addEventListener("pointerup", (_e) => {
     state.isDragging = false;
   });
 

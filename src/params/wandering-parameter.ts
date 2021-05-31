@@ -1,14 +1,14 @@
-import { NumericParameter } from "../../typings/interface";
+import { NumericParameter } from "@typings/interface";
 
 export function WanderingParameter(
   param: NumericParameter,
   scaleFactor = 1 / 400
-) {
+): { step: () => void } {
   const [min, max] = param.bounds;
 
   let diff = 0.0;
-  let scale = scaleFactor * (max - min);
   let touchCountdown = 0;
+  const scale = scaleFactor * (max - min);
 
   let previousValue = (min + max) / 2;
 

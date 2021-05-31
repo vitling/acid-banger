@@ -3,13 +3,10 @@ import {
   ParameterCallback,
   NumericParameter,
   Trigger,
-} from "../typings/interface";
+} from "@typings/interface";
 
-export function genericParameter<T>(
-  name: string,
-  value: T
-): GeneralisedParameter<T> {
-  let listeners: ParameterCallback<T>[] = [];
+export function genericParameter<T>(name: string, value: T): GeneralisedParameter<T> {
+  const listeners: ParameterCallback<T>[] = [];
   const state = { value };
   function subscribe(callback: ParameterCallback<T>) {
     callback(state.value);
@@ -17,7 +14,7 @@ export function genericParameter<T>(
   }
 
   function publish() {
-    for (let l of listeners) {
+    for (const l of listeners) {
       l(state.value);
     }
   }
@@ -34,14 +31,10 @@ export function genericParameter<T>(
   };
 }
 
-export function trigger(name: string, value: boolean = false): Trigger {
+export function trigger(name: string, value = false): Trigger {
   return genericParameter(name, value);
 }
 
-export function parameter(
-  name: string,
-  bounds: [number, number],
-  value: number
-): NumericParameter {
+export function parameter(name: string, bounds: [number, number], value: number): NumericParameter {
   return Object.assign(genericParameter<number>(name, value), { bounds });
 }
