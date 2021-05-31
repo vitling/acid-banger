@@ -130,5 +130,3 @@ export function Dial(
     bind,
   };
 }
-
-export type DialT = ReturnType<typeof Dial>;
