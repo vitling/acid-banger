@@ -58,7 +58,6 @@ export function pressToStart(
     }
   }
   button.addEventListener("click", handleStartAction);
-  window.addEventListener("keydown", handleStartAction);
 }
 
 export function repeat(seconds: number, fn: (time: number, step: number) => void): void {
