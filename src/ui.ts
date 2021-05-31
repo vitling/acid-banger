@@ -146,6 +146,8 @@ export function UI(
   const machineContainer = document.createElement("div");
   machineContainer.classList.add("machines");
 
+  // TODO use state.notes pubsub to connect MIDI dials to note.parameters
+
   const noteMachines = state.notes.map((n, i) =>
     machine(
       label("303-0" + (i + 1)),
