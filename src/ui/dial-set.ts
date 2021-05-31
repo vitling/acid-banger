@@ -1,7 +1,6 @@
 import { NumericParameter } from "@typings/interface";
 
 import { Dial } from "./dial";
-import { defaultColors } from "./palette";
 
 export function DialSet(
   parameters: { [key: string]: NumericParameter } | NumericParameter[],
@@ -16,7 +15,7 @@ export function DialSet(
 
   params.forEach((param) => {
     //const param = parameters[p];
-    const dial = Dial(param.bounds, param.name, defaultColors.dial, defaultColors.text);
+    const dial = Dial(param.bounds, param.name);
 
     // Change the parameter if we move the dial
     dial.bind((v: number) => {

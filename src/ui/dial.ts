@@ -4,16 +4,16 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-export function Dial(
-  bounds: [number, number],
-  text?: string
-): {
+type DialElement = {
   element: HTMLElement;
   value: number;
   bind: (h: (v: number) => void) => void;
-} {
+};
+
+export function Dial(bounds: [number, number], text = "unlabeled"): DialElement {
   const element = document.createElement("input");
   element.type = "range";
+  element.name = text;
   element.classList.add("dial");
 
   let normalizedValue = 0.5;
@@ -47,8 +47,6 @@ export function Dial(
   }
 
   element.addEventListener("input", () => {
-    console.log({ text, value: element.value, float: parseFloat(element.value) / 100 });
-
     const newValue = parseFloat(element.value) / 100;
     const actualValue = denormalise(newValue);
     setValue(actualValue);
