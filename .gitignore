@@ -1,6 +1,7 @@
-node_modules
 .eslintcache
-.DS_Store
+node_modules
+coverage
 dist
 dist-ssr
+.DS_Store
 *.local
