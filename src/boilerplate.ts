@@ -4,16 +4,22 @@
   https://creativecommons.org/licenses/by/4.0/
 */
 
-export function pressToStart(fn: () => void, title: string, description: string, callToAction: string = "Click, tap or press any key to start") {
+export function pressToStart(
+  fn: () => void,
+  title: string,
+  description: string,
+  callToAction = "Click, tap or press any key to start"
+): void {
+  const button = document.createElement("button");
+  button.id = "_start_button";
+  const introText = document.createElement("div");
+  introText.id = "_intro_text";
+  button.append(introText);
+  introText.innerHTML = title + "<br><br>" + description + "<br><br>" + callToAction;
 
-    const button = document.createElement("button");
-    button.id="_start_button";
-    const introText = document.createElement("div");
-    introText.id = "_intro_text";
-    button.append(introText);
-    introText.innerHTML = title + "<br><br>" + description + "<br><br>" + callToAction;
-
-    document.head.insertAdjacentHTML("beforeend", `
+  document.head.insertAdjacentHTML(
+    "beforeend",
+    `
     <style>
         body {
             height: 95vh;  margin: 0; padding: 0; 
@@ -39,55 +45,63 @@ export function pressToStart(fn: () => void, title: string, description: string,
             font-family: monospace;
         }
     </style>
-    `);
-    document.body.append(button);
+    `
+  );
+  document.body.append(button);
 
-    let started = false;
-    function handleStartAction() {
-        if (!started) {
-            started = true;
-            fn();
-            button.style.display = "none";
-        }
+  let started = false;
+  function handleStartAction() {
+    if (!started) {
+      started = true;
+      fn();
+      button.style.display = "none";
     }
-    button.addEventListener("click", handleStartAction);
-    window.addEventListener("keydown", handleStartAction);
-
+  }
+  button.addEventListener("click", handleStartAction);
 }
 
-export function repeat(seconds: number, fn: (time: number, step: number) => void) {
-    let time = new Date().getTime();
-    let n = 0;
-    function step() {
-        const t = new Date().getTime() - time;
-        fn(t, n);
-        n++;
-    }
+export function repeat(seconds: number, fn: (time: number, step: number) => void): void {
+  const time = new Date().getTime();
+  let n = 0;
+  function step() {
+    const t = new Date().getTime() - time;
+    fn(t, n);
+    n++;
+  }
 
-    step();
-    window.setInterval(step, seconds * 1000);
+  step();
+  window.setInterval(step, seconds * 1000);
 }
 
-export function Clock(bpm: number, subdivision: number =4, shuffle: number = 0) {
-    let currentBpm = bpm;
-    let fn = (time: number, step: number) => {};
-    let time = new Date().getTime();
-    let n = 0;
-    function bind(newFn: (time: number, step: number) => void) {
-        fn = newFn;
-    }
-    function step() {
-        const t = new Date().getTime() - time;
-        fn(t, n);
-        const shuffleFactor = n % 2 == 0 ? 1 + shuffle : 1 - shuffle;
-        n++;
+export function Clock(
+  bpm: number,
+  subdivision = 4,
+  shuffle = 0
+): {
+  bind: (newFn: (time: number, step: number) => void) => void;
+  setBpm: (bpm: number) => number;
+} {
+  let currentBpm = bpm;
 
-        window.setTimeout(step, shuffleFactor * (60000 / currentBpm) / subdivision);
-    }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  let fn = (_time: number, _step: number) => {};
+  const time = new Date().getTime();
+  let n = 0;
+  function bind(newFn: (time: number, step: number) => void) {
+    fn = newFn;
+  }
+  function step() {
+    const t = new Date().getTime() - time;
+    fn(t, n);
+    const shuffleFactor = n % 2 == 0 ? 1 + shuffle : 1 - shuffle;
+    n++;
 
-    window.setTimeout(step, (60000 / bpm) / subdivision);
-    return {
-        bind,
-        setBpm: (bpm: number) => currentBpm = bpm
-    }
+    window.setTimeout(step, (shuffleFactor * (60000 / currentBpm)) / subdivision);
+  }
+
+  window.setTimeout(step, 60000 / bpm / subdivision);
+  return {
+    bind,
+    setBpm: (bpm: number) => (currentBpm = bpm),
+  };
 }

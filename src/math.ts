@@ -5,14 +5,13 @@
 */
 
 export function rndInt(maxExcl: number): number {
-    return Math.floor(Math.random() * (maxExcl-0.01));
+  return Math.floor(Math.random() * (maxExcl - 0.01));
 }
 
 export function biRnd(): number {
-    return Math.random() * 2 - 1;
+  return Math.random() * 2 - 1;
 }
 
-export function choose<T>(array: T[]):T {
-    return array[rndInt(array.length)];
+export function choose<T>(array: T[]): T {
+  return array[rndInt(array.length)];
 }
-

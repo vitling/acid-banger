@@ -1,14 +1,20 @@
 {
+  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es6",
-    "lib": ["dom", "esnext"],
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext", "DOM"],
+    "moduleResolution": "Node",
     "sourceMap": true,
-    "outDir": "./js",
-    "strict": true
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "baseUrl": ".",
+    "paths": {
+      "@typings/*": ["./typings/*"]
+    }
   },
-  "compileOnSave": true,
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["./typings", "./src"]
 }

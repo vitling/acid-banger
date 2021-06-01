@@ -1,1 +1,7 @@
-.*
+.eslintcache
+node_modules
+coverage
+dist
+dist-ssr
+.DS_Store
+*.local

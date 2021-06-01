@@ -2,17 +2,15 @@
 
 An algorithmic human-computer techno jam
 
-![Screenshot](https://github.com/vitling/acid-banger/blob/main/preview.png?raw=true)
+![Screenshot](docs/preview.png?raw=true)
 
 Built in Typescript with the WebAudio API.
 
 Live version running at [www.vitling.xyz/toys/acid-banger](https://www.vitling.xyz/toys/acid-banger)
 
-
 ## Support
 
 You can support my work by [Sponsoring me on GitHub](https://github.com/sponsors/vitling) or [buying](https://music.vitling.xyz) [my music](https://edgenetwork.bandcamp.com/album/edge001-spaceport-lounge-music)
-
 
 ## License & Intended use
 
